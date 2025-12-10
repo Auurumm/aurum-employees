@@ -78,6 +78,15 @@ export default function LoginPage() {
             {loading ? '로그인 중...' : '로그인'}
           </button>
         </form>
+
+        <button 
+          type="button" 
+          onClick={() => router.push('/')} 
+          className="home-button"
+        >
+          → 홈으로 돌아가기
+        </button>
+
       </div>
     </div>
   );

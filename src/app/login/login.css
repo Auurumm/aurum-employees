@@ -198,3 +198,19 @@
       padding: 14px;
     }
   }
+
+  .home-button {
+    margin-top: 1rem;
+    padding: 0.75rem 1.5rem;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .home-button:hover {
+    color: #fff;
+  }

@@ -29,8 +29,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   };
 
   const handleLogout = async () => {
-    await logout();
     router.push('/');
+    await logout();
   };
 
   return (
