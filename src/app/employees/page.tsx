@@ -154,6 +154,11 @@ export default function EmployeesPage() {
                       {employee.position} · {employee.department}
                     </p>
                     <p className="employee-phone">{employee.phone}</p>
+                    {employee.note && (
+                      <p className="employee-note">
+                        {employee.note ? `"${employee.note}"` : ''}
+                      </p>
+                    )}
                   </div>
                 </div>
               </Link>

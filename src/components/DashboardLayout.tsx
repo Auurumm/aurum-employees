@@ -38,10 +38,17 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       {/* 상단 네비게이션 */}
       <nav className="top-navbar">
         <div className="navbar-content">
-          <div className="logo-section">
-            <div className="logo-icon">AURUM</div>
-            <span className="logo-text">직원 포털</span>
-          </div>
+        <div className="logo-section" onClick={() => router.push('/employees')} style={{ cursor: 'pointer' }}>
+            <Image 
+                src="/images/logo.png" 
+                alt="AURUM" 
+                width={40} 
+                height={40} 
+                className="logo-image"
+                style={{ transform: 'scaleX(-1)' }}
+            />
+            <span className="logo-text">AURUM 직원 포털</span>
+            </div>
           
           <div className="user-section">
             <span className="user-name">{user?.name}</span>

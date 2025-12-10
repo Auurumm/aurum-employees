@@ -1,12 +1,13 @@
-// app/employees/new/page.tsx
+// src/app/employees/new/page.tsx
 'use client';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { POSITIONS, DEPARTMENTS } from '@/types/user';
 import ProtectedRoute from '@/components/ProtectedRoute';
+import DashboardLayout from '@/components/DashboardLayout';
+import './new-employee.css';
 
-// ✅ 실제 페이지 컨텐츠
 function NewEmployeePageContent() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -78,18 +79,18 @@ function NewEmployeePageContent() {
   };
 
   return (
-    <div className="container mx-auto max-w-2xl p-6 pt-24">
-      <h1 className="text-2xl font-bold mb-6">신규 직원 등록</h1>
+    <DashboardLayout>
+      <div className="new-employee-page">
+        <h1 className="page-title">신규 직원 등록</h1>
 
-      <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-lg shadow">
-        {/* 계정 정보 */}
-        <div className="border-b pb-4">
-          <h2 className="text-lg font-semibold mb-4">계정 정보</h2>
-          
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                이메일 (로그인 ID) <span className="text-red-500">*</span>
+        <form onSubmit={handleSubmit} className="new-form">
+          {/* 계정 정보 */}
+          <div className="form-card account-card">
+            <h2 className="section-title">계정 정보</h2>
+
+            <div className="form-group">
+              <label className="form-label">
+                이메일 (로그인 ID) <span className="required">*</span>
               </label>
               <input
                 type="email"
@@ -98,15 +99,15 @@ function NewEmployeePageContent() {
                 onChange={handleChange}
                 required
                 placeholder="example@company.com"
-                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="form-input"
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                초기 비밀번호 <span className="text-red-500">*</span>
+            <div className="form-group">
+              <label className="form-label">
+                초기 비밀번호 <span className="required">*</span>
               </label>
-              <div className="flex space-x-2">
+              <div className="password-field">
                 <input
                   type="text"
                   name="password"
@@ -114,168 +115,174 @@ function NewEmployeePageContent() {
                   onChange={handleChange}
                   required
                   placeholder="최소 6자 이상"
-                  className="flex-1 px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="form-input"
                 />
                 <button
                   type="button"
                   onClick={generatePassword}
-                  className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 whitespace-nowrap"
+                  className="generate-btn"
                 >
                   자동생성
                 </button>
               </div>
-              <p className="text-xs text-gray-500 mt-1">※ 이 비밀번호를 직원에게 안전하게 전달하세요</p>
+              <span className="form-hint">※ 이 비밀번호를 직원에게 안전하게 전달하세요</span>
             </div>
           </div>
-        </div>
 
-        {/* 기본 정보 */}
-        <div className="space-y-4">
-          <h2 className="text-lg font-semibold">기본 정보</h2>
+          {/* 기본 정보 */}
+          <div className="form-card">
+            <h2 className="section-title">기본 정보</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                이름 <span className="text-red-500">*</span>
+            <div className="form-grid">
+              <div className="form-group">
+                <label className="form-label">
+                  이름 <span className="required">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  className="form-input"
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">성별</label>
+                <select
+                  name="gender"
+                  value={formData.gender}
+                  onChange={handleChange}
+                  className="form-select"
+                >
+                  <option value="남">남</option>
+                  <option value="여">여</option>
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">생년월일 (6자리)</label>
+                <input
+                  type="text"
+                  name="birthYear"
+                  value={formData.birthYear}
+                  onChange={handleChange}
+                  placeholder="YYMMDD"
+                  maxLength={6}
+                  className="form-input"
+                />
+                <span className="form-hint">예: 900101</span>
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">연락처</label>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  placeholder="010-0000-0000"
+                  className="form-input"
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">입사일</label>
+                <input
+                  type="month"
+                  name="joinDate"
+                  value={formData.joinDate}
+                  onChange={handleChange}
+                  className="form-input"
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">직급</label>
+                <select
+                  name="position"
+                  value={formData.position}
+                  onChange={handleChange}
+                  className="form-select"
+                >
+                  {POSITIONS.map(pos => (
+                    <option key={pos} value={pos}>{pos}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">직계</label>
+                <select
+                  name="department"
+                  value={formData.department}
+                  onChange={handleChange}
+                  className="form-select"
+                >
+                  {DEPARTMENTS.map(dept => (
+                    <option key={dept} value={dept}>{dept}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* 추가 정보 */}
+          <div className="form-card">
+            <h2 className="section-title">추가 정보</h2>
+
+            <div className="form-group">
+              <label className="form-label">주소</label>
+              <input
+                type="text"
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                className="form-input"
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">
+                솔로건
+                <span className="char-count">({formData.note.length}/70자)</span>
               </label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
+              <textarea
+                name="note"
+                value={formData.note}
                 onChange={handleChange}
-                required
-                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                maxLength={70}
+                rows={3}
+                className="form-textarea"
+                placeholder="최대 70자"
               />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">성별</label>
-              <select
-                name="gender"
-                value={formData.gender}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="남">남</option>
-                <option value="여">여</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">생년월일 (6자리)</label>
-              <input
-                type="text"
-                name="birthYear"
-                value={formData.birthYear}
-                onChange={handleChange}
-                placeholder="YYMMDD (예: 900101)"
-                maxLength={6}
-                pattern="[0-9]{6}"
-                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">연락처</label>
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="010-0000-0000"
-                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">입사일</label>
-              <input
-                type="month"
-                name="joinDate"
-                value={formData.joinDate}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">직급</label>
-              <select
-                name="position"
-                value={formData.position}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                {POSITIONS.map(pos => (
-                  <option key={pos} value={pos}>{pos}</option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">직계</label>
-              <select
-                name="department"
-                value={formData.department}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                {DEPARTMENTS.map(dept => (
-                  <option key={dept} value={dept}>{dept}</option>
-                ))}
-              </select>
             </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium mb-1">주소</label>
-            <input
-              type="text"
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+          {/* 버튼 */}
+          <div className="form-actions">
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn btn-primary"
+            >
+              {loading ? '등록중...' : '등록'}
+            </button>
+            <button
+              type="button"
+              onClick={() => router.push('/employees')}
+              className="btn btn-secondary"
+            >
+              취소
+            </button>
           </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-1">
-              솔로건 ({formData.note.length}/70자)
-            </label>
-            <textarea
-              name="note"
-              value={formData.note}
-              onChange={handleChange}
-              maxLength={70}
-              rows={3}
-              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-        </div>
-
-        {/* 버튼 */}
-        <div className="flex space-x-4 pt-4">
-          <button
-            type="submit"
-            disabled={loading}
-            className="flex-1 bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600 disabled:bg-gray-400"
-          >
-            {loading ? '등록중...' : '등록'}
-          </button>
-          <button
-            type="button"
-            onClick={() => router.push('/employees')}
-            className="flex-1 bg-gray-300 text-gray-700 px-6 py-3 rounded hover:bg-gray-400"
-          >
-            취소
-          </button>
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
+    </DashboardLayout>
   );
 }
 
-// ✅ ProtectedRoute로 감싸서 export
 export default function NewEmployeePage() {
   return (
     <ProtectedRoute requireAdmin={true}>

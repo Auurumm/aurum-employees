@@ -1,0 +1,214 @@
+/* src/app/employees/new/new-employee.css */
+
+.new-employee-page {
+    max-width: 800px;
+  }
+  
+  .page-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 2rem;
+  }
+  
+  /* 폼 */
+  .new-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .form-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    padding: 1.5rem;
+  }
+  
+  .form-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* 계정 정보 카드 강조 */
+  .account-card {
+    background: linear-gradient(135deg, #fff8e1 0%, #fff3d0 100%);
+    border: 2px solid #D4AF37;
+  }
+  
+  .section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #9D8129;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #D4AF37;
+  }
+  
+  /* 폼 그리드 */
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  
+  @media (max-width: 640px) {
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .form-group:last-child {
+    margin-bottom: 0;
+  }
+  
+  .form-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #374151;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .required {
+    color: #ef4444;
+  }
+  
+  .char-count {
+    margin-left: auto;
+    font-size: 0.8rem;
+    color: #9ca3af;
+    font-weight: 400;
+  }
+  
+  .form-input,
+  .form-select,
+  .form-textarea {
+    padding: 0.8rem 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color: #1f2937;
+    transition: all 0.3s;
+    background: white;
+  }
+  
+  .form-input:focus,
+  .form-select:focus,
+  .form-textarea:focus {
+    outline: none;
+    border-color: #D4AF37;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+  }
+  
+  .form-input::placeholder,
+  .form-textarea::placeholder {
+    color: #9ca3af;
+  }
+  
+  .form-select {
+    cursor: pointer;
+  }
+  
+  .form-textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+  
+  .form-hint {
+    font-size: 0.8rem;
+    color: #9ca3af;
+  }
+  
+  /* 비밀번호 필드 */
+  .password-field {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .password-field .form-input {
+    flex: 1;
+  }
+  
+  .generate-btn {
+    padding: 0.8rem 1rem;
+    background: #6b7280;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    white-space: nowrap;
+  }
+  
+  .generate-btn:hover {
+    background: #4b5563;
+  }
+  
+  /* 버튼 */
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .btn {
+    flex: 1;
+    padding: 0.9rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: none;
+  }
+  
+  .btn-primary {
+    background: linear-gradient(135deg, #9D8129 0%, #D4AF37 100%);
+    color: white;
+  }
+  
+  .btn-primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+  }
+  
+  .btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+  
+  .btn-secondary {
+    background: #f3f4f6;
+    color: #4b5563;
+    border: 2px solid #e5e7eb;
+  }
+  
+  .btn-secondary:hover {
+    background: #e5e7eb;
+    border-color: #d1d5db;
+  }
+  
+  /* 반응형 */
+  @media (max-width: 640px) {
+    .form-actions {
+      flex-direction: column;
+    }
+  
+    .page-title {
+      font-size: 1.5rem;
+    }
+  
+    .password-field {
+      flex-direction: column;
+    }
+  }

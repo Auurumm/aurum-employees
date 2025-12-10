@@ -1,12 +1,15 @@
+// src/app/employees/edit/[id]/page.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { doc, getDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { db, storage } from '../../../../lib/firebase'; 
-import { User, POSITIONS, DEPARTMENTS, Position, Department, Gender } from '../../../../types/user';
+import { db, storage } from '@/lib/firebase';
+import { POSITIONS, DEPARTMENTS, Position, Department, Gender } from '@/types/user';
+import DashboardLayout from '@/components/DashboardLayout';
 import Image from 'next/image';
+import './edit-employee.css';
 
 export default function EditEmployeePage() {
   const params = useParams();
@@ -38,7 +41,7 @@ export default function EditEmployeePage() {
     try {
       const docRef = doc(db, 'users', userId);
       const docSnap = await getDoc(docRef);
-      
+
       if (docSnap.exists()) {
         const data = docSnap.data();
         setEmployee({
@@ -72,14 +75,14 @@ export default function EditEmployeePage() {
         alert('이미지 파일만 업로드 가능합니다.');
         return;
       }
-      
+
       if (file.size > 5 * 1024 * 1024) {
         alert('파일 크기는 5MB 이하여야 합니다.');
         return;
       }
-      
+
       setImageFile(file);
-      
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreviewUrl(reader.result as string);
@@ -90,15 +93,15 @@ export default function EditEmployeePage() {
 
   const uploadImage = async (): Promise<string | null> => {
     if (!imageFile) return null;
-    
+
     try {
       const timestamp = Date.now();
       const fileName = `${timestamp}_${imageFile.name}`;
       const storageRef = ref(storage, `profile-images/${userId}/${fileName}`);
-      
+
       await uploadBytes(storageRef, imageFile);
       const downloadUrl = await getDownloadURL(storageRef);
-      
+
       return downloadUrl;
     } catch (error) {
       console.error('이미지 업로드 실패:', error);
@@ -108,35 +111,34 @@ export default function EditEmployeePage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!employee.name?.trim()) {
       alert('이름을 입력해주세요.');
       return;
     }
-    
+
     if (employee.birthYear && employee.birthYear.length !== 6) {
       alert('생년월일은 6자리(YYMMDD)로 입력해주세요.');
       return;
     }
-    
+
     if (employee.note && employee.note.length > 70) {
       alert('솔로건은 70자 이내로 입력해주세요.');
       return;
     }
-    
+
     setSaving(true);
-    
+
     try {
       let profileImageUrl = employee.profileImage;
-      
+
       if (imageFile) {
         const uploadedUrl = await uploadImage();
         if (uploadedUrl) {
           profileImageUrl = uploadedUrl;
         }
       }
-      
-      // ✅ undefined 방지를 위한 명확한 값 설정
+
       const updateData = {
         name: employee.name || '',
         gender: employee.gender || '남',
@@ -151,11 +153,9 @@ export default function EditEmployeePage() {
         updatedAt: serverTimestamp()
       };
 
-      console.log('📝 업데이트 데이터:', updateData); // 디버깅
-      
       const docRef = doc(db, 'users', userId);
       await updateDoc(docRef, updateData);
-      
+
       alert('저장되었습니다.');
       router.push('/employees');
     } catch (error) {
@@ -178,190 +178,198 @@ export default function EditEmployeePage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-lg">로딩중...</div>
-      </div>
+      <DashboardLayout>
+        <div className="loading-screen">
+          <div className="loading-text">로딩중...</div>
+        </div>
+      </DashboardLayout>
     );
   }
 
   return (
-    <div className="container mx-auto max-w-2xl p-6 pt-24">
-      <h1 className="text-2xl font-bold mb-6">직원 정보 수정</h1>
-      
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* 프로필 사진 */}
-        <div className="flex flex-col items-center space-y-4">
-          <div className="relative w-32 h-32">
-            {previewUrl ? (
-              <Image
-                src={previewUrl}
-                alt="프로필 사진"
-                fill
-                className="rounded-full object-cover"
-              />
-            ) : (
-              <div className="w-32 h-32 bg-gray-200 rounded-full flex items-center justify-center">
-                <span className="text-gray-400">사진 없음</span>
+    <DashboardLayout>
+      <div className="edit-employee-page">
+        <h1 className="page-title">직원 정보 수정</h1>
+
+        <form onSubmit={handleSubmit} className="edit-form">
+          {/* 프로필 사진 섹션 */}
+          <div className="form-card profile-card">
+            <div className="profile-upload">
+              <div className="profile-preview">
+                {previewUrl ? (
+                  <Image
+                    src={previewUrl}
+                    alt="프로필 사진"
+                    fill
+                    className="profile-image"
+                  />
+                ) : (
+                  <div className="profile-placeholder">
+                    {employee.name?.[0] || '?'}
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-          
-          <label className="cursor-pointer bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-            사진 변경
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              className="hidden"
-            />
-          </label>
-        </div>
-
-        {/* 기본 정보 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium mb-1">
-              이름 <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              name="name"
-              value={employee.name}
-              onChange={handleChange}
-              required
-              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+              <label className="upload-btn">
+                사진 변경
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="hidden-input"
+                />
+              </label>
+            </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium mb-1">성별</label>
-            <select
-              name="gender"
-              value={employee.gender}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          {/* 기본 정보 */}
+          <div className="form-card">
+            <h2 className="section-title">기본 정보</h2>
+            <div className="form-grid">
+              <div className="form-group">
+                <label className="form-label">
+                  이름 <span className="required">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={employee.name}
+                  onChange={handleChange}
+                  required
+                  className="form-input"
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">성별</label>
+                <select
+                  name="gender"
+                  value={employee.gender}
+                  onChange={handleChange}
+                  className="form-select"
+                >
+                  <option value="남">남</option>
+                  <option value="여">여</option>
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">생년월일 (6자리)</label>
+                <input
+                  type="text"
+                  name="birthYear"
+                  value={employee.birthYear}
+                  onChange={handleChange}
+                  placeholder="YYMMDD"
+                  maxLength={6}
+                  className="form-input"
+                />
+                <span className="form-hint">예: 900101</span>
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">연락처</label>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={employee.phone}
+                  onChange={handleChange}
+                  placeholder="010-0000-0000"
+                  className="form-input"
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">입사일</label>
+                <input
+                  type="month"
+                  name="joinDate"
+                  value={employee.joinDate}
+                  onChange={handleChange}
+                  className="form-input"
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">직급</label>
+                <select
+                  name="position"
+                  value={employee.position}
+                  onChange={handleChange}
+                  className="form-select"
+                >
+                  {POSITIONS.map(pos => (
+                    <option key={pos} value={pos}>{pos}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">직계</label>
+                <select
+                  name="department"
+                  value={employee.department}
+                  onChange={handleChange}
+                  className="form-select"
+                >
+                  {DEPARTMENTS.map(dept => (
+                    <option key={dept} value={dept}>{dept}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* 추가 정보 */}
+          <div className="form-card">
+            <h2 className="section-title">추가 정보</h2>
+
+            <div className="form-group">
+              <label className="form-label">주소</label>
+              <input
+                type="text"
+                name="address"
+                value={employee.address}
+                onChange={handleChange}
+                className="form-input"
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">
+                솔로건 한마디
+                <span className="char-count">({employee.note?.length || 0}/70자)</span>
+              </label>
+              <textarea
+                name="note"
+                value={employee.note}
+                onChange={handleChange}
+                maxLength={70}
+                rows={3}
+                className="form-textarea"
+                placeholder="최대 70자"
+              />
+            </div>
+          </div>
+
+          {/* 버튼 */}
+          <div className="form-actions">
+            <button
+              type="submit"
+              disabled={saving}
+              className="btn btn-primary"
             >
-              <option value="남">남</option>
-              <option value="여">여</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-1">
-              생년월일 (6자리)
-            </label>
-            <input
-              type="text"
-              name="birthYear"
-              value={employee.birthYear}
-              onChange={handleChange}
-              placeholder="YYMMDD (예: 900101)"
-              maxLength={6}
-              pattern="[0-9]{6}"
-              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <p className="text-xs text-gray-500 mt-1">예: 900101</p>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-1">연락처</label>
-            <input
-              type="tel"
-              name="phone"
-              value={employee.phone}
-              onChange={handleChange}
-              placeholder="010-0000-0000"
-              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-1">입사일</label>
-            <input
-              type="month"
-              name="joinDate"
-              value={employee.joinDate}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-1">직급</label>
-            <select
-              name="position"
-              value={employee.position}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              {saving ? '저장중...' : '저장'}
+            </button>
+            <button
+              type="button"
+              onClick={() => router.push('/employees')}
+              className="btn btn-secondary"
             >
-              {POSITIONS.map(pos => (
-                <option key={pos} value={pos}>{pos}</option>
-              ))}
-            </select>
+              취소
+            </button>
           </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-1">직계</label>
-            <select
-              name="department"
-              value={employee.department}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              {DEPARTMENTS.map(dept => (
-                <option key={dept} value={dept}>{dept}</option>
-              ))}
-            </select>
-          </div>
-        </div>
-
-        {/* 주소 */}
-        <div>
-          <label className="block text-sm font-medium mb-1">주소</label>
-          <input
-            type="text"
-            name="address"
-            value={employee.address}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-
-        {/* 솔로건 */}
-        <div>
-          <label className="block text-sm font-medium mb-1">
-            솔로건 한마디 ({employee.note?.length || 0}/70자)
-          </label>
-          <textarea
-            name="note"
-            value={employee.note}
-            onChange={handleChange}
-            maxLength={70}
-            rows={3}
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="최대 70자"
-          />
-        </div>
-
-        {/* 버튼 */}
-        <div className="flex space-x-4">
-          <button
-            type="submit"
-            disabled={saving}
-            className="flex-1 bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600 disabled:bg-gray-400"
-          >
-            {saving ? '저장중...' : '저장'}
-          </button>
-          
-          <button
-            type="button"
-            onClick={() => router.push('/employees')}
-            className="flex-1 bg-gray-300 text-gray-700 px-6 py-3 rounded hover:bg-gray-400"
-          >
-            취소
-          </button>
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
+    </DashboardLayout>
   );
 }
