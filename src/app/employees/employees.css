@@ -1,0 +1,218 @@
+/* src/app/employees/employees.css */
+.loading-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: white;
+  }
+  
+  .loading-text {
+    font-size: 1.1rem;
+    color: #666;
+  }
+  
+  .employees-page {
+    max-width: 1200px;
+  }
+  
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .stat-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s;
+  }
+  
+  .stat-card:hover {
+    transform: translateY(-3px);
+  }
+  
+  .stat-card.gold {
+    background: linear-gradient(135deg, #fff8e1 0%, #fff3d0 100%);
+    border: 2px solid #D4AF37;
+  }
+  
+  .stat-card.gold-dark {
+    background: linear-gradient(135deg, #9D8129 0%, #D4AF37 100%);
+    color: white;
+  }
+  
+  .stat-label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    opacity: 0.8;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.3px;
+  }
+  
+  .stat-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+  }
+  
+  .search-container {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .search-input,
+  .filter-select {
+    padding: 0.8rem 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: all 0.3s;
+  }
+  
+  .search-input {
+    flex: 1;
+    min-width: 250px;
+  }
+  
+  .search-input:focus,
+  .filter-select:focus {
+    outline: none;
+    border-color: #D4AF37;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+  }
+  
+  .employees-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .employee-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: flex;
+    gap: 1rem;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  
+  .employee-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(157, 129, 41, 0.2);
+    border: 2px solid #D4AF37;
+  }
+  
+  .employee-avatar {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #f3f4f6;
+    flex-shrink: 0;
+  }
+  
+  .avatar-image {
+    object-fit: cover;
+  }
+  
+  .avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #9ca3af;
+  }
+  
+  .employee-info {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .employee-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .employee-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .employee-badge {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  
+  .employee-badge.직원 {
+    background: #dbeafe;
+    color: #1e40af;
+  }
+  
+  .employee-badge.임원 {
+    background: #fae8ff;
+    color: #86198f;
+  }
+  
+  .employee-position {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin: 0.3rem 0;
+  }
+  
+  .employee-phone {
+    font-size: 0.85rem;
+    color: #9ca3af;
+    margin: 0;
+  }
+  
+  .no-results {
+    text-align: center;
+    padding: 3rem;
+    color: #9ca3af;
+    font-size: 1.1rem;
+  }
+  
+  /* 반응형 */
+  @media (max-width: 768px) {
+    .stats-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .search-container {
+      flex-direction: column;
+    }
+  
+    .search-input {
+      width: 100%;
+    }
+  
+    .employees-grid {
+      grid-template-columns: 1fr;
+    }
+  }

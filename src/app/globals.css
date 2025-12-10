@@ -1,0 +1,73 @@
+/* src/app/globals.css - 맨 위에 이 3줄이 있어야 함! */
+@import "tailwindcss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 
+    "Pretendard Variable", 
+    Pretendard, 
+    -apple-system, 
+    BlinkMacSystemFont, 
+    system-ui, 
+    Roboto, 
+    "Helvetica Neue", 
+    "Segoe UI", 
+    "Apple SD Gothic Neo", 
+    "Noto Sans KR", 
+    "Malgun Gothic", 
+    sans-serif;
+  /* 블랙 배경 제거 */
+  background-color: #ffffff;  /* ← 화이트로 변경 */
+  color: #1f2937;  /* ← 텍스트도 어두운 회색으로 */
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  /* 한글 줄바꿈 최적화 */
+  word-break: keep-all;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* 텍스트 요소에 한글 줄바꿈 적용 */
+h1, h2, h3, h4, h5, h6, p, span, div, li, td, th, label {
+  word-break: keep-all;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* 제목 폰트 무게 */
+h1, h2, h3 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+h4, h5, h6 {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* 본문 텍스트 */
+p, span, div {
+  font-weight: 400;
+  line-height: 1.7;
+  letter-spacing: -0.01em;
+}
+
+/* 버튼 텍스트 */
+button {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* 입력 필드 */
+input, textarea, select {
+  font-family: inherit;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
