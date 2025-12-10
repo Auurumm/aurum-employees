@@ -123,7 +123,7 @@ export default function EditEmployeePage() {
     }
 
     if (employee.note && employee.note.length > 70) {
-      alert('솔로건은 70자 이내로 입력해주세요.');
+      alert('슬로건은 70자 이내로 입력해주세요.');
       return;
     }
 
@@ -336,7 +336,7 @@ export default function EditEmployeePage() {
 
             <div className="form-group">
               <label className="form-label">
-                솔로건 한마디
+                슬로건 한마디
                 <span className="char-count">({employee.note?.length || 0}/70자)</span>
               </label>
               <textarea

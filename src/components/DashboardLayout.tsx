@@ -15,7 +15,11 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const { user, logout, isAdmin } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
-  const [activeMenu, setActiveMenu] = useState('employees');
+  const getActiveMenu = () => {
+    if (pathname === '/employees/new') return 'new';
+    if (pathname?.startsWith('/employees/edit')) return 'profile';
+    return 'employees';
+  };
 
   const menuItems = [
     { id: 'employees', label: '직원 명부', icon: '👥', path: '/employees' },
@@ -24,7 +28,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   ];
 
   const handleMenuClick = (item: typeof menuItems[0]) => {
-    setActiveMenu(item.id);
     router.push(item.path);
   };
 
@@ -67,7 +70,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             {menuItems.map((item) => (
               <button
                 key={item.id}
-                className={`menu-item ${activeMenu === item.id ? 'active' : ''}`}
+                className={`menu-item ${getActiveMenu() === item.id ? 'active' : ''}`}
                 onClick={() => handleMenuClick(item)}
               >
                 <span className="menu-icon">{item.icon}</span>
