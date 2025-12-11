@@ -1,4 +1,4 @@
-// app/page.tsx
+// src/app/page.tsx
 'use client';
 
 import { useRouter } from 'next/navigation';
@@ -8,7 +8,6 @@ export default function PortalPage() {
   const router = useRouter();
 
   const handlePortalClick = () => {
-    // 포털 축소 애니메이션 후 로그인으로 이동
     const portalContainer = document.querySelector('.portal-container');
     portalContainer?.classList.add('animate-collapse');
     
@@ -19,6 +18,11 @@ export default function PortalPage() {
 
   return (
     <div className="entry-screen">
+      <div className="background-image"></div>
+      {/* 어두운 오버레이 */}
+      <div className="overlay"></div>
+
+      {/* 포털 비디오 */}
       <div className="portal-container" onClick={handlePortalClick}>
         <video autoPlay muted loop playsInline>
           <source
@@ -27,8 +31,9 @@ export default function PortalPage() {
           />
         </video>
       </div>
+
       <div className="info-box">
-        <h1>Aurum Inc. Portal</h1>
+        <h1>AURUM.INC_PORTAL</h1>
         <p>포털을 클릭하여 시스템에 접속하세요</p>
       </div>
     </div>

@@ -20,7 +20,7 @@ function NewEmployeePageContent() {
     birthYear: '',
     address: '',
     joinDate: '',
-    position: '주임',
+    position: '스탭',
     department: '없음',
     note: '',
   });

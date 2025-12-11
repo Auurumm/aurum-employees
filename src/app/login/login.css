@@ -214,3 +214,41 @@
   .home-button:hover {
     color: #fff;
   }
+  
+  /* src/app/login/login.css 기존 코드에 추가 */
+
+.switch-button {
+  padding: 12px;
+  background: transparent;
+  border: 2px solid rgba(212, 175, 55, 0.3);
+  border-radius: 10px;
+  color: rgba(212, 175, 55, 0.9);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.switch-button:hover {
+  background: rgba(212, 175, 55, 0.1);
+  border-color: rgba(212, 175, 55, 0.5);
+}
+
+.home-button {
+  margin-top: 1.5rem;
+  padding: 12px;
+  background: transparent;
+  border: none;
+  color: rgba(212, 175, 55, 0.7);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  text-align: center;
+}
+
+.home-button:hover {
+  color: rgba(212, 175, 55, 1);
+}

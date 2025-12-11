@@ -106,7 +106,7 @@
     gap: 1rem;
     transition: all 0.3s;
     cursor: pointer;
-    min-height: 120px;  /* 이 줄 추가 */
+    height: 160px;
   }
 
   .employee-card:hover {

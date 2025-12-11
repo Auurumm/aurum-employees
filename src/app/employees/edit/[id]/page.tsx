@@ -324,7 +324,7 @@ export default function EditEmployeePage() {
             <h2 className="section-title">추가 정보</h2>
 
             <div className="form-group">
-              <label className="form-label">주소</label>
+              <label className="form-label">주소(ㅇㅇ시 ㅇㅇ구)</label>
               <input
                 type="text"
                 name="address"
