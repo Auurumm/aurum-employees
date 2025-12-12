@@ -301,7 +301,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               height={36}
             />
           </div>
-          <span className="brand-text">AURUM PORTAL</span>
+          <span className="brand-text">AURUM.INC_PORTAL</span>
         </div>
 
         {/* 메인 메뉴 */}
