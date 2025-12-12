@@ -421,9 +421,9 @@ export default function MenuManagementPage() {
           </div>
         </div>
         <div className="admin-nav-right">
-          <button className="btn-secondary" onClick={handleInitialize}>
+          {/* <button className="btn-secondary" onClick={handleInitialize}>
             🔄 기본값 초기화
-          </button>
+          </button> */}
           <button className="btn-primary" onClick={() => handleAddClick(null)}>
             + 새 메뉴 추가
           </button>
