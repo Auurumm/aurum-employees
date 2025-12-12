@@ -2,7 +2,14 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
-import { User as FirebaseUser, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { 
+  User as FirebaseUser, 
+  onAuthStateChanged, 
+  signInWithEmailAndPassword, 
+  signOut,
+  browserSessionPersistence,
+  setPersistence
+} from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase';
 import { User } from '../types/user';
@@ -31,24 +38,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log('🔄 AuthProvider 초기화'); // 디버깅
+    console.log('🔄 AuthProvider 초기화');
     
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      console.log('👤 Auth 상태 변경:', firebaseUser?.email); // 디버깅
+      console.log('👤 Auth 상태 변경:', firebaseUser?.email);
       
       if (firebaseUser) {
         try {
           const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
           if (userDoc.exists()) {
             const userData = { id: userDoc.id, ...userDoc.data() } as User;
-            console.log('✅ 사용자 데이터 로드:', userData); // 디버깅
+            console.log('✅ 사용자 데이터 로드:', userData);
             setUser(userData);
           } else {
-            console.log('⚠️ Firestore에 사용자 데이터 없음'); // 디버깅
+            console.log('⚠️ Firestore에 사용자 데이터 없음');
           }
           setFirebaseUser(firebaseUser);
         } catch (error) {
-          console.error('❌ 사용자 데이터 로드 실패:', error); // 디버깅
+          console.error('❌ 사용자 데이터 로드 실패:', error);
         }
       } else {
         setUser(null);
@@ -61,7 +68,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string) => {
-    console.log('🔐 Login 함수 호출'); // 디버깅
+    console.log('🔐 Login 함수 호출');
+    
+    // 세션 지속성 설정: 브라우저/탭 닫으면 로그아웃
+    await setPersistence(auth, browserSessionPersistence);
+    
     await signInWithEmailAndPassword(auth, email, password);
   };
 

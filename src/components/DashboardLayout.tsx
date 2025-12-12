@@ -89,23 +89,25 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     },
   ];
 
-  // 메뉴 클릭 핸들러
-  const handleMenuClick = (menuId: string, menuTo?: string | null, hasChildren?: boolean) => {
-    if (hasChildren) {
-      setExpandedMenus(prev => {
-        const newSet = new Set(prev);
-        if (newSet.has(menuId)) {
-          newSet.delete(menuId);
-        } else {
-          newSet.add(menuId);
-        }
-        return newSet;
-      });
-    }
-    
+  // 메뉴 텍스트 클릭 → 페이지 이동
+  const handleMenuNavigate = (menuTo?: string | null) => {
     if (menuTo) {
       router.push(menuTo);
     }
+  };
+
+  // 화살표 클릭 → 하위 메뉴 펼침/접힘
+  const handleMenuToggle = (menuId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setExpandedMenus(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(menuId)) {
+        newSet.delete(menuId);
+      } else {
+        newSet.add(menuId);
+      }
+      return newSet;
+    });
   };
 
   // 메뉴 검색
@@ -204,16 +206,23 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
       return (
         <li key={menu.id} className={`menu-item ${isActive ? 'active' : ''} ${isExpanded ? 'expanded' : ''}`}>
-          <button
-            className="menu-link"
-            onClick={() => handleMenuClick(menu.id, menu.to, hasChildren)}
-          >
-            <span className="menu-icon">{menu.icon}</span>
-            <span className="menu-text">{menu.title}</span>
+          <div className="menu-link">
+            <button
+              className="menu-link-content"
+              onClick={() => handleMenuNavigate(menu.to)}
+            >
+              <span className="menu-icon">{menu.icon}</span>
+              <span className="menu-text">{menu.title}</span>
+            </button>
             {hasChildren && (
-              <span className="expand-icon">▶</span>
+              <button
+                className="expand-btn"
+                onClick={(e) => handleMenuToggle(menu.id, e)}
+              >
+                <span className="expand-icon">▶</span>
+              </button>
             )}
-          </button>
+          </div>
 
           {hasChildren && isExpanded && (
             <ul className="submenu">
@@ -225,14 +234,21 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 if (childHasChildren) {
                   return (
                     <li key={child.id} className={`menu-item ${isMenuActive(child) ? 'active' : ''} ${childIsExpanded ? 'expanded' : ''}`}>
-                      <button
-                        className="menu-link"
-                        onClick={() => handleMenuClick(child.id, child.to, true)}
-                      >
-                        <span className="menu-icon">{child.icon}</span>
-                        <span className="menu-text">{child.title}</span>
-                        <span className="expand-icon">▶</span>
-                      </button>
+                      <div className="menu-link">
+                        <button
+                          className="menu-link-content"
+                          onClick={() => handleMenuNavigate(child.to)}
+                        >
+                          <span className="menu-icon">{child.icon}</span>
+                          <span className="menu-text">{child.title}</span>
+                        </button>
+                        <button
+                          className="expand-btn"
+                          onClick={(e) => handleMenuToggle(child.id, e)}
+                        >
+                          <span className="expand-icon">▶</span>
+                        </button>
+                      </div>
                       {childIsExpanded && (
                         <ul className="submenu">
                           {child.children!.map((grandChild) => (
