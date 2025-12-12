@@ -4,6 +4,8 @@ import "./portal.css";
 import type { Metadata } from "next";
 // TODO: Fix the import path below according to your project structure.
 import { AuthProvider } from "../contexts/AuthContext"; 
+import { MenuProvider } from "@/contexts/MenuContext"; 
+
 
 export const metadata: Metadata = {
   title: "AURUM.INC_PORTAL",

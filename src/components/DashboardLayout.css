@@ -323,3 +323,85 @@
 .mypage-menu-item.logout:hover {
   background: #fef2f2;
 }
+
+/* DashboardLayout.css에 추가할 스타일 */
+
+/* 관리자 버튼 */
+.admin-btn {
+  padding: 8px 16px;
+  background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-right: 8px;
+}
+
+.admin-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+/* 메뉴 로딩 상태 */
+.menu-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  color: var(--body-color);
+  font-size: 0.875rem;
+}
+
+/* 활성 메뉴 스타일 */
+.category-header.active {
+  color: var(--primary);
+  background-color: rgba(212, 175, 55, 0.1);
+}
+
+.category-header.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background-color: var(--primary);
+}
+
+.submenu-item.active {
+  color: var(--primary);
+  background-color: rgba(212, 175, 55, 0.1);
+  font-weight: 600;
+}
+
+/* 깊은 메뉴 들여쓰기 (H3, H4, H5) */
+.submenu .menu-category {
+  margin: 0;
+}
+
+.submenu .category-header {
+  font-size: 0.8125rem;
+}
+
+.submenu .submenu-item {
+  font-size: 0.8125rem;
+}
+
+/* 메뉴 호버 효과 */
+.category-header {
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.category-header:hover {
+  color: var(--primary);
+  background-color: rgba(212, 175, 55, 0.05);
+}
+
+.submenu-item:hover {
+  color: var(--primary);
+  background-color: rgba(212, 175, 55, 0.05);
+}
