@@ -5,6 +5,7 @@ import {
     saveTokenInLocalStorage,
     signUp,
 } from '../../services/AuthService';
+import { auth } from '../../firebase/config'; 
 
 
 export const SIGNUP_CONFIRMED_ACTION = '[signup action] confirmed signup';  
@@ -41,7 +42,8 @@ export function signupAction(email, password, navigate) {
 
 export function Logout(navigate) {
 	localStorage.removeItem('userDetails');
-    navigate('/login');
+    auth.signOut();  //
+    navigate('/');
     
 	return {
         type: LOGOUT_ACTION,
