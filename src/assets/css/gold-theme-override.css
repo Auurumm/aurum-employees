@@ -1,0 +1,63 @@
+/* 골드 테마 오버라이드 */
+
+/* Primary 색상 일괄 변경 */
+:root {
+    --primary: #DAA520;
+    --bs-primary: #DAA520;
+    --bs-primary-rgb: 218, 165, 32;
+    --primary-color: #DAA520;
+  }
+  
+  /* 파란색을 골드로 변경 */
+  .bg-primary,
+  .btn-primary,
+  .badge-primary,
+  .text-primary,
+  .border-primary {
+    color: #DAA520 !important;
+    background-color: #DAA520 !important;
+    border-color: #DAA520 !important;
+  }
+  
+  /* 버튼 */
+  .btn-primary {
+    background-color: #DAA520 !important;
+    border-color: #DAA520 !important;
+  }
+  
+  .btn-primary:hover {
+    background-color: #B8860B !important;
+    border-color: #B8860B !important;
+  }
+  
+  /* 링크 */
+  a.text-primary,
+  .link-primary {
+    color: #DAA520 !important;
+  }
+  
+  /* 사이드바 활성 메뉴 */
+  .nav-link.active,
+  .menu-item.active {
+    color: #DAA520 !important;
+    background-color: rgba(218, 165, 32, 0.1) !important;
+  }
+  
+  /* 차트 색상 */
+  .chart-primary,
+  [class*="chart"] .primary-color {
+    color: #DAA520 !important;
+    fill: #DAA520 !important;
+    stroke: #DAA520 !important;
+  }
+  
+  /* 프로그레스 바 */
+  .progress-bar {
+    background-color: #DAA520 !important;
+  }
+  
+  /* 체크박스/라디오 */
+  .form-check-input:checked {
+    background-color: #DAA520 !important;
+    border-color: #DAA520 !important;
+  }
